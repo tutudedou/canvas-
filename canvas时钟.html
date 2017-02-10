@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时钟</title>
+</head>
+<body>
+<canvas></canvas>
+</body>
+<script>
+    var cas = document.querySelector("canvas");
+    cas.width = window.innerWidth;
+    cas.height = window.innerHeight;
+    var context = cas.getContext("2d");
+    //画天空
+
+
+    //画一个五角星
+    function Star(ctx, r, R, x, y,rot) {
+        this.context = ctx;
+        this.r = r;
+        this.R = R;
+        this.x = x;
+        this.y = y;
+        this.rot=rot;
+    }
+    Star.prototype = {
+        constructor: Star,
+        fill: function () {
+            context.beginPath();
+            for (var i = 0; i < 5; i++) {
+                context.lineTo(Math.cos((18 + i * 72-this.rot) / 180 * Math.PI) * this.R + this.x, -Math.sin((18 + i * 72-this.rot) / 180 * Math.PI) * this.R + this.y);
+                context.lineTo(Math.cos((54 + i * 72-this.rot) / 180 * Math.PI) * this.r + this.x, -Math.sin((54 + i * 72-this.rot) / 180 * Math.PI) * this.r+ this.y);
+            }
+            context.closePath();
+            context.fillStyle="yellow";
+            context.fill();
+
+            //绘制渐变色
+            context.beginPath();
+        }
+    };
+    var timer=setTimeout(function(){
+        context.beginPath();
+        context.clearRect(0,0,cas.width,cas.height);
+        var grd = context.createRadialGradient(cas.width/2,cas.height,0,cas.width/2,cas.height,cas.width);
+        grd.addColorStop(1, "black");
+        grd.addColorStop(0, "#0"+(Math.ceil(Math.random()*5)+30));
+        context.fillStyle = grd;
+        context.rect(0, 0, window.innerWidth, window.innerHeight);
+        context.fill();
+        for(var i =0;i <= 200;i++){
+            var star1=new Star(context,4,8,Math.random()*window.innerWidth,Math.random()*(window.innerHeight-200),20);
+            star1.fill();
+        }
+        timer=setTimeout(arguments.callee,1000);
+    },1000);
+
+
+</script>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图像处理</title>
+    <style>
+        form {
+            position: absolute;
+            display: block;
+            width: 200px;
+            height:400px;
+            box-shadow: 0 0 5px #666;
+            top: 20%;
+            left: 100px;
+            text-align: center;
+            font: 30px consolas;
+            color: #3072b3;
+        }
+
+        form input {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+<canvas></canvas>
+<form action="">
+    <label for="red">RED</label>
+    <br>
+    <input type="range" id="red">
+    <br>
+    <label for="green">GREEN</label>
+    <br>
+    <input type="range" id="green">
+    <br>
+    <label for="blue">BLUE</label>
+    <br>
+    <input type="range" id="blue">
+    <br>
+    <label for="alpha">ALPHA</label>
+    <br>
+    <input type="range" id="alpha">
+    <br>
+    <label for="file">FILE</label>
+    <input type="file" id="file">
+</form>
+<script>
+    //获得画布
+    var cas = document.querySelector("canvas");
+    cas.width = window.innerWidth;
+    cas.height = window.innerHeight;
+    var cot = cas.getContext("2d");
+    //获取图片信息
+    var file = document.querySelector("#file");
+    file.addEventListener("change",function(){
+        var f=file.files[0];
+        console.log(f);
+        var loadimg=new FileReader();
+//        loadimg.readAsText(f);
+//        console.log(loadimg.result);
+        loadimg.readAsDataURL(f);
+        loadimg.onload=function(){
+            img0.src=this.result;
+        }
+    });
+
+
+
+
+
+    //设置图片
+    var img0 = new Image();
+    img0.src = "angular.png";
+    img0.onload = function () {
+        cot.drawImage(img0,400, 100,300,160);
+        cot.drawImage(img0, 400, 300,800,420);
+
+
+        //获得滑动块
+        var red = document.querySelector("#red");
+        var green = document.querySelector("#green");
+        var blue = document.querySelector("#blue");
+        var alpha = document.querySelector("#alpha");
+        var colorarr = [red, green, blue, alpha];
+        colorarr.forEach(function (v) {
+            v.addEventListener("change", slidechange);
+        });
+        //定义当滑块改变时运行的操作函数
+        function slidechange() {
+            var changedData = sepia(colorarr[0].value,colorarr[1].value,colorarr[2].value,colorarr[3].value);
+            cot.putImageData(changedData, 400, 300);
+        }
+
+
+        //预知参数的函数
+        function sepia( red, green, blue,alpha) {
+            var pixels=cot.getImageData(400,100,img0.width,img0.height);
+            red=parseInt(red)/100;
+            green=parseInt(green)/100;
+            blue=parseInt(blue)/100;
+            alpha=parseInt(alpha)/100;
+            var d = pixels.data;
+            for (var i = 0; i < d.length; i += 4) {
+                var r = d[i];
+                var g = d[i + 1];
+                var b = d[i + 2];
+                d[i] = (r * red ) + (g * red ) + (b * red);
+                d[i + 1] = (r * green) + (g * green ) + (b * green);
+                d[i + 2] = (r * blue) + (g * blue) + (b * blue);
+                d[i + 3] = (r * alpha) + (g * alpha) + (b * alpha);
+            }
+            return pixels;
+        }
+    };
+
+
+
+</script>
+</body>
+</html>

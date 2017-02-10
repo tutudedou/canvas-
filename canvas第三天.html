@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas></canvas>
+<script>
+    var cas = document.querySelector("canvas");
+    cas.width = window.innerWidth;
+    cas.height = window.innerHeight;
+    var context = cas.getContext("2d");
+    //获得图片
+//    var img = new Image();
+//    img.src = "NPCrabbitbaby-2.png";
+//    img.onload = function () {
+//        context.rotate(-Math.PI / 4);
+//        var w = img.width / 4;
+//        var h = img.height / 4;
+//        var x = 0;
+//        var timer = setTimeout(function () {
+//            context.clearRect(100, 100, w, 4 * h);
+//            context.drawImage(img, x * w, 0, w, h, 100, 100, w, h);
+//            context.drawImage(img, x * w, h, w, h, 100, 100 + h, w, h);
+//            context.drawImage(img, x * w, 2 * h, w, h, 100, 100 + 2 * h, w, h);
+//            context.drawImage(img, x * w, 3 * h, w, h, 100, 100 + 3 * h, w, h);
+//            if (x < 3) {
+//                x++;
+//            } else {
+//                x = 0;
+//            }
+//            timer = setTimeout(arguments.callee, 300);
+//        }, 300);
+//    };
+
+    context.beginPath();
+    context.strokeStyle="red";
+    context.setLineDash([10]);
+    context.strokeRect(200, 300, 100, 100);
+
+
+
+
+</script>
+</body>
+</html>

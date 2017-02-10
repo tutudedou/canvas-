@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>封装绘图对象</title>
+</head>
+<body>
+<canvas>你的浏览器不支持canvas请将浏览器升级到最高版本以便得到更好的用户体验</canvas>
+<script>
+    var cas=document.querySelector("canvas");
+    cas.width=1000;
+    cas.height=500;
+    var cont=cas.getContext("2d");
+    //矩形封装
+     function Rect(config){
+         //参数要有x,y,width,height,cont
+         for(var k in config){
+             this[k]=config[k];
+         }
+//         this.cont=config.cont;
+//         this.x=config.x;
+//         this.y=config.y;
+//         this.width=config.width;
+//         this.height=config.height;
+//         this.strokeStyle=config.strokeStyle;
+//         this.fillStyle=config.fillStyle;
+//         this.lineWidth=config.lineWidth;
+     }
+    Rect.prototype={
+        constructor:Rect,
+        stroke:function(){
+            var ctx=this.cont;
+            cont.rect(this.x,this.y,this.width,this.height);
+             if(this.strokeStyle){
+                       cont.strokeStyle=this.strokeStyle;
+             }
+            cont.stroke();
+        },
+        fill:function () {
+            var ctx=this.cont;
+            cont.rect(this.x,this.y,this.width,this.height);
+            if(this.fillStyle){
+                cont.fillStyle=this.fillStyle;
+            }
+            cont.fill();
+        }
+    };
+
+    var rect1=new Rect({
+        cont:cont,
+        x:100,
+        y:100,
+        width:100,
+        height:100,
+        strokeStyle:"red",
+        fillStyle:"green",
+        lineWidth:10
+    });
+    rect1.stroke();
+    rect1.fill();
+</script>
+</body>
+</html>

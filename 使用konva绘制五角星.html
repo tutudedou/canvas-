@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>konva</title>
+    <script src="konva.js"></script>
+</head>
+<body>
+<div id="dv"></div>
+<script>
+    var stage = new Konva.Stage({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        container: "dv"
+    });
+    var layer = new Konva.Layer({});
+    var star = new Konva.Star({
+        x: 150,
+        y: 100,
+        numPoints: 5,
+        innerRadius: 50,
+        outerRadius: 100,
+        fill: "yellowgreen",
+        draggable: true
+    });
+   var rect=new Konva.Rect({
+       x:300,y:200,fill:"green",width:200,height:200
+   });
+    layer.add(rect);
+    layer.add(star);
+    stage.add(layer);
+</script>
+</body>
+</html>

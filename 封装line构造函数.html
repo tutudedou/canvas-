@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>直线构造函数的封装</title>
+</head>
+<body>
+<canvas></canvas>
+<script>
+    //将直线进行封装
+    //要实现的功能得到结果
+    //new Line()可以得到一条直线,方法canvas画布上
+    //给line提供一个stroke方法
+    function Line(ctx,x0,y0,x1,y1){
+        this.pa=ctx;
+        this.x0=x0;
+        this.y0=y0;
+        this.x1=x1;
+        this.y1=y1;
+    }
+    Line.prototype={
+        constructor:Line,
+        stroke:function(){
+            //封装绘制过程
+            console.log(this.pa);
+            this.pa.moveTo(this.x0,this.y0);
+            this.pa.lineTo(this.x1,this.y1);
+            this.pa.stroke();
+        }
+    };
+    var cont=document.querySelector("canvas").getContext("2d");
+    console.log(cont);
+    var line=new Line(cont,100,100,400,400);
+    line.stroke();
+</script>
+</body>
+</html>

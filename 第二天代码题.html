@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第二天代码题</title>
+    <style>
+        div {
+            color: skyblue;
+        }
+    </style>
+</head>
+<body>
+<canvas id="painter"></canvas>
+<script>
+    var cas = document.querySelector("#painter");
+    cas.width = window.innerWidth;
+    cas.height = window.innerHeight;
+    var context = cas.getContext("2d");
+    var colors = ["yellow", "skyblue", "salmon", "brown", "turquoise", "orchid", "mediumspringgreen"]
+    //1.将今天绘制的坐标点进行连线(制作折线图)
+    var pl = 30, pt = 30, dis = 400;
+    context.beginPath();
+    context.moveTo(pl, pt);
+    context.lineTo(pl, dis + pt);
+    context.lineTo(pl + dis, dis + pt);
+    context.stroke();
+    //绘制箭头
+    context.beginPath();
+    context.moveTo(pl - 5, pt + 5);
+    context.lineTo(pl, pt);
+    context.lineTo(pl + 5, pt + 5);
+    context.lineTo(pl, pt + 3);
+    context.closePath();
+    context.fill();
+    context.beginPath();
+    context.moveTo(pl + dis - 5, dis + pt - 5);
+    context.lineTo(pl + dis, dis + pt);
+    context.lineTo(pl + dis - 5, dis + pt + 5);
+    context.lineTo(pl + dis - 3, dis + pt);
+    context.closePath();
+    context.fill();
+    //设置点的数组
+    var dots = [[50, 98], [250, 166], [150, 327], [350, 144], [100, 145], [300, 233], [200, 320]];
+    var dotsMax = 0;
+    var sort = [];
+    dotsMax = Math.max.apply(null, dots.map(function (v) {
+        return v[0];
+    }));
+    for (var i = 0; i < dots.length - 1; i++) {
+        for (var j = 0; j < dots.length - i - 1; j++) {
+            if (dots[j][0] > dots[j + 1][0]) {
+                var temp = dots[j];
+                dots[j] = dots[j + 1];
+                dots[j + 1] = temp;
+            }
+        }
+    }
+    console.log(dots);
+    context.beginPath();
+    context.moveTo(dots[0][0], (dis + pt) - dots[0][1]);
+    var index = 0;
+    dots.forEach(function (v) {
+        index++;
+        v[1] = (dis + pt) - v[1];
+        context.lineTo(v[0], v[1]);
+        context.fillStyle = colors[index];
+        context.fillRect(v[0] - 5, v[1] - 5, 10, 10);
+    });
+    context.stroke();
+    //2.制作矩形移动的动画
+    var left = 450;
+    var timer = setTimeout(function () {
+        context.clearRect(left, 100, 100, 100);
+        left++;
+        context.fillRect(left, 100, 100, 100);
+        if (left > 800) {
+            return;
+        }
+        timer = setTimeout(arguments.callee, 20)
+    }, 20);
+
+    //3.绘制一个半径50的正圆
+    context.beginPath();
+    context.arc(600, 300, 50, 0, 2 * Math.PI);
+//    context.shadowOffsetX=10;
+//    context.shadowOffsetY=10;
+    context.shadowBlur=5;
+//    context.closePath();
+    context.fill();
+    //4.制作绘制圆的动画
+    var deg = 0;
+    setTimeout(function () {
+        context.beginPath();
+        deg++;
+        context.clearRect(150, 450, 100, 100);
+        context.moveTo(200, 500);
+        context.arc(200, 500, 50, 0, deg / 180 * Math.PI);
+        context.closePath();
+        context.fillStyle = "skyblue";
+        context.fill();
+        if (deg > 360) {
+            return;
+        }
+        setTimeout(arguments.callee, 20);
+    }, 20);
+
+    //5.请将课程最后的饼形图绘制一次
+
+    var start = -Math.PI / 2;
+    for (var k = 0; k < 3; k++) {
+        context.beginPath();
+        context.moveTo(750, 500);
+        //绘制直线
+        var ang=Math.PI/6-2 * Math.PI / 3*k;
+        context.lineTo(750 + 150*Math.cos(ang), 500-150*Math.sin(ang));
+
+         if(ang<-Math.PI/2&&ang>-3*Math.PI/2){
+             context.lineTo(750 + 150*Math.cos(ang)-100, 500-150*Math.sin(ang));
+             context.textAlign="right";
+             console.log("hi");
+         }else{
+             context.lineTo(750 + 150*Math.cos(ang)+100, 500-150*Math.sin(ang));
+         }
+
+        //绘制文字
+        context.strokeStyle=colors[k];
+        context.fillStyle = colors[k];
+        context.font="30px consolas";
+        context.fillText("33.33%",750 + 150*Math.cos(ang), 500-150*Math.sin(ang)-10);
+        context.stroke();
+        //绘制扇形
+        context.beginPath();
+        context.moveTo(750, 500);
+//        context.fillStyle = colors[k];
+        //    context.shadowColor="rgba(0,0,0,0.5)";
+        context.arc(750, 500, 100, start, start + 2 * Math.PI / 3);
+        context.fill();
+
+        start = start + 2 * Math.PI / 3;
+    }
+
+    var img=new Image();
+    img.src="angular.png";
+    img.onload=function () {
+        context.drawImage(img,900,200);
+        var imageData=context.getImageData(900,200,300,160);
+        console.log(imageData);
+
+        function grayscale(pixels) {
+            var d=pixels.data;
+            for(var i =0;i <d.length;i+=4){
+                var r=d[i];
+                var g=d[i+1];
+                var b=d[i+2];
+                d[i]=d[i+1]=d[i+2]=(r+g+b)/3;
+            }
+            return pixels;
+        }
+        function sepia(pixels) {
+            var d=pixels.data;
+            for(var i =0;i <d.length;i+=4){
+                var r=d[i];
+                var g=d[i+1];
+                var b=d[i+2];
+                d[i]=(r*0.3)+(g*0.769)+(b*0.189);
+                d[i+1]=(r*0.349)+(g*0.686)+(b*0.168);
+                d[i+2]=(r*0.272)+(g*0.534)+(b*0.131);
+            }
+            return pixels;
+        }
+
+        var changedData=grayscale(imageData);
+        context.putImageData(changedData,900,400);
+        var changedData2=sepia(imageData);
+        context.putImageData(changedData2,900,0);
+    };
+
+
+    //绘制圆弧
+
+</script>
+</body>
+</html>

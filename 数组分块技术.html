@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组分块</title>
+    <style>
+        div {
+            width: 300px;
+            height: 100px;
+            background: forestgreen;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<!--<div>-->
+
+<!--</div>-->
+<input type="button" value="btn" id="btn">
+<script>
+    function process(v) {
+        console.log(v);
+    }
+    var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    setTimeout(function () {
+        //去除下一个条目并处理
+        var item = arr.shift();
+        process(item);
+        //若还有条目在设置一个定时器
+        if (arr.length > 0) {
+            setTimeout(arguments.callee, 100);
+        }
+    }, 100);
+
+    function chunk(arr, process, context) {
+        setTimeout(function () {
+            var item = arr.shift();
+            process.call(context, item);
+            if (arr.length > 0) {
+                setTimeout(arguments.callee, 100);
+            }
+        }, 100);
+    }
+
+    var processor = {
+        timeoutId: null,
+        //实际处理的方法
+        fn: function () {
+            //实际执行的代码
+        },//初始化处理调用的方法
+        process: function () {
+            clearTimeout(this.timeoutId);
+            var that = this;
+            this.timeoutId = setTimeout(function () {
+                that.fn();
+            }, 100)
+        }
+    };
+    //开始执行
+    processor.process();
+
+    function clear(method, context) {
+        clearTimeout(method.tId);
+        method.tId = setTimeout(function () {
+            method.call(context);
+        }, 100)
+    }
+
+    //自定义事件
+    function EventTarget() {
+        this.handlers = {};
+    }
+    EventTarget.prototype = {
+        constructor: EventTarget,
+        addHandler: function (type, handler) {
+            if (typeof this.handlers[type] === "undefined") {
+                this.handlers[type] = [];
+                //如果没有handler[type]属性将其初始化为[]
+            }
+            this.handlers[type] = [];
+        },
+        fire: function (e) {
+            if (!e.target) {
+                e.target = this;
+            }
+            if (this.handlers[e.type] instanceof Array) {
+                var handlers = this.handlers[e.type];
+                for (var i = 0; i < handlers.length; i++) {
+                    handlers[i](e);
+                }
+
+            }
+        },
+        removeHandler: function (type, handler) {
+            if (this.handlers[type] instanceof Array) {
+                var handlers = this.handlers[type];
+
+                for (var i = 0; i < handlers.length; i++) {
+                    if (handler[i] === handler) {
+                        break;
+                    }
+                }
+                handlers.splice(i, 1);
+            }
+        }
+    };
+
+    //移除
+    //    var box = document.querySelector("div");
+    //    document.addEventListener("mousemove", function (e) {
+    //        box.style.left = e.clientX + "px";
+    //        box.style.top = e.clientY + "px";
+    //    })
+
+
+    //安全的使用构造函数作用域
+    function Person(name, age, job) {
+        if (this instanceof Person) {
+            this.name = name;
+            this.age = age;
+            this.job = job;
+        } else {
+            return new Person(name, age, job);
+        }
+    }
+
+    //惰性载入函数
+    //函数的绑定
+    var handler = {
+        message: "Event handles",
+        handleClick: function (event) {
+            console.log((this.message));
+        }
+    };
+    var handler2 = {
+        message: "Event handles2",
+        handleClick: function (event) {
+            console.log((this.message));
+        }
+    };
+    var btn = document.getElementById("btn");
+    btn.addEventListener("click", function (e) {
+        handler.handleClick(e);
+    });
+    handler.handleClick.call(handler2);
+
+    function bind(fn,context) {
+        return function(){
+            return fn.apply(context,argumrnts);
+        }
+    }
+
+</script>
+</body>
+</html>

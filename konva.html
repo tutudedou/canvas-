@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>konva</title>
+    <script src="konva.js"></script>
+</head>
+<body>
+<div id="dv"></div>
+<script>
+    var stage = new Konva.Stage({
+        width: 600,
+        height: 400,
+        container: "dv"
+    });
+    var layer = new Konva.Layer({});
+    var rect = new Konva.Rect({
+        x: 50,
+        y: 100,
+        width: 100,
+        height: 100,
+        fill: "pink",
+        draggable: true
+    });
+    var arc = new Konva.Arc({
+        x: stage.getWidth() / 2,
+        y: stage.getHeight / 2,
+        innerRadius: 70,
+        outerRadius: 100,
+        stroke: 'green',
+        fill: 'pink',
+        angle: 60,
+        rotation: -90
+    });
+    layer.add(arc);
+    layer.add(rect);
+    stage.add(layer);
+    //绘制星星
+    var layer2 = new Konva.Layer();
+    var star = new Konva.Star({
+        x: 150,
+        y: 100,
+        numPoints: 60,
+        innerRadius: 70,
+        outerRadius: 100,
+        fill: "yellowgreen",
+        draggable: true
+    });
+    var arrow = new Konva.Arrow({
+        points: [20, 130],
+        fill: "blue",
+        pointerLength: 20,
+        pointerWidth: 40
+    });
+    star.on("click", function () {
+//        this.fill = "yellow";
+        console.log("hi");
+        layer2.add(arrow);
+        layer2.add(star);
+        stage.add(layer2);
+    });
+    star.on("mouseout", function () {
+//        this.fill = "green";
+        console.log("hi2");
+        layer2.add(arrow);
+        layer2.add(star);
+        stage.add(layer2);
+    });
+    layer2.add(arrow);
+    layer2.add(star);
+    stage.add(layer2);
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>圆弧</title>
+</head>
+<body>
+<canvas id="painter"></canvas>
+<script>
+    var cas = document.querySelector("#painter");
+    cas.width = window.innerWidth;
+    cas.height = window.innerHeight;
+    var context = cas.getContext("2d");
+    context.beginPath();
+    context.moveTo(150,150);
+    context.lineTo(200,200);
+    context.arcTo(650,150,650,650,100);
+    context.lineWidth=10;
+    context.stroke();
+</script>
+</body>
+</html>

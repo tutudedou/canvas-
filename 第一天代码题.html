@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第一天代码题</title>
+    <style>
+        canvas {
+            box-shadow: 0 0 15px #666;
+        }
+    </style>
+</head>
+<body>
+<canvas></canvas>
+</body>
+<script>
+    var cas = document.querySelector("canvas");
+    cas.width = window.innerWidth - 100;
+    cas.height = window.innerHeight - 100;
+    var ctx = cas.getContext("2d");
+    console.log(ctx);
+    //1.从点（0,0）到点（400,400）绘制一条倾斜虚线，
+    // 虚线的要求是10像素的实线再10像素的虚线再10像素的实线这样的线段。
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(400, 400);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "#666";
+    ctx.lineDashOffset = 20;
+    ctx.setLineDash([10, 10]);
+    ctx.stroke();
+    //2.绘制一个梯形
+    ctx.beginPath();
+    ctx.moveTo(120, 10);
+    ctx.lineTo(150, 10);
+    ctx.lineTo(180, 100);
+    ctx.lineTo(100, 100);
+    ctx.setLineDash([]);
+    ctx.lineCap = "round";
+    ctx.lineJoin = "bevel";
+    ctx.lineWidth = 5;
+    ctx.closePath();
+    ctx.stroke();
+    //3.请完成非零环绕的练习
+    ctx.beginPath();
+    ctx.moveTo(220, 10);
+    ctx.lineTo(420, 10);
+    ctx.lineTo(420, 210);
+    ctx.lineTo(220, 210);
+    ctx.closePath();
+    ctx.moveTo(240, 30);
+    ctx.lineTo(240, 190);
+    ctx.lineTo(400, 190);
+    ctx.lineTo(400, 30);
+    ctx.closePath();
+    ctx.fillStyle = "yellowgreen";
+    ctx.fill();
+    //4.请完成坐标网格的绘制
+    //5.请完成坐标系的绘制
+    ctx.beginPath();
+    ctx.moveTo(450, 10);
+    ctx.lineTo(450, 410);
+    ctx.lineTo(850, 410);
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(440, 20);
+    ctx.lineTo(450, 5);
+    ctx.lineTo(460, 20);
+    ctx.lineTo(450, 15);
+    ctx.closePath();
+    ctx.moveTo(840, 400);
+    ctx.lineTo(855, 410);
+    ctx.lineTo(840, 420);
+    ctx.lineTo(845, 410);
+    ctx.closePath();
+    ctx.fillStyle = "#666";
+    ctx.fill();
+
+    for (var i = 1; i < 10; i++) {
+        ctx.beginPath();
+        ctx.moveTo(450 + i * 40, 410);
+        ctx.lineTo(450 + i * 40, 10);
+        ctx.stroke();
+    }
+    for (var j = 1; j < 10; j++) {
+        ctx.beginPath();
+        ctx.moveTo(450, 410 - j * 40);
+        ctx.lineTo(850, 410 - j * 40);
+        ctx.stroke();
+    }
+    //6.请完成坐标点（绘制一个红色矩形）的绘制
+    ctx.beginPath();
+    ctx.moveTo(490, 170);
+    ctx.lineTo(690, 170);
+    ctx.lineTo(690, 370);
+    ctx.lineTo(490, 370);
+    ctx.closePath();
+    ctx.fillStyle = "red";
+    ctx.fill();
+    //7.请完成渐变颜色的线条的案例
+
+    for (var k = 0; k <= 255; k++) {
+        ctx.beginPath();
+        ctx.moveTo(10 + k, 450);
+        ctx.lineTo(10 + k, 550);
+        ctx.strokeStyle = "rgb(0," + k + ",0)";
+        ctx.stroke();
+    }
+    //8.请完成Line构造函数实现对绘画线条的封装。
+    function Line(ctx, x0, y0, x1, y1) {
+        this.ctx = ctx;
+        this.startX = x0;
+        this.startY = y0;
+        this.endX = x1;
+        this.endY = y1;
+    }
+    Line.prototype = {
+        constructor: Line,
+        stro: function () {
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.startX, this.startY);
+            this.ctx.lineTo(this.endX, this.endY);
+            this.ctx.stroke();
+        }
+    };
+    var lin = new Line(ctx, 500, 500, 600, 600);
+    lin.stro();
+
+
+</script>
+</html>

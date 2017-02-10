@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第三天代码题</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<canvas>你的浏览器太低端啦!</canvas>
+<script>
+    var cas = document.querySelector("canvas");
+    cas.width = window.innerWidth;
+    cas.height = window.innerHeight;
+    var context = cas.getContext("2d");
+    //开始绘图
+    //1.将xcm.jpg 绘制在canvas画布上,大小为200*200
+    //进阶：将图片以高度固定200，宽度等比例绘制在canvas中
+    var img = new Image();
+    img.src = "xcm.jpg";
+    img.onload = function () {
+        context.strokeRect(95, 95, 210, 210);
+        context.drawImage(img, 0, 0, img.width, img.height, 100, 100, 200, 200);
+    };
+    //2.绘制一个动画效果：使用图片“动画.png”作为素材
+    var img0 = new Image();
+    img0.src = "动画.png";
+    img0.onload = function () {
+        context.strokeRect(395, 25, 135, 280);
+        context.save();
+        var pic = 0;
+        var timer = setTimeout(function () {
+            context.clearRect(400, 30, 125, 270);
+            context.drawImage(img0, pic * img0.width / 8, 0, img0.width / 8,
+                    img0.height, 400, 30, 125, 270);
+            if (pic < 7) {
+                pic++;
+            } else {
+                pic = 0;
+            }
+            context.restore();
+            timer = setTimeout(arguments.callee, 200);
+        }, 200);
+    };
+    //3.利用坐标变换将一个半径为100的正圆变为椭圆
+    context.beginPath();
+    context.save();
+    context.translate(600, 300);
+    context.scale(1 / 2, 1);
+    context.stroke();
+    context.beginPath();
+    context.arc(100, -100, 100, 0, Math.PI * 2);
+    context.stroke();
+    context.restore();
+    //4.在同一个canvas中画一个旋转了正90度的矩形。
+    // 画一个半径为100的圆，将其高度缩放一半变成一个椭圆
+    context.beginPath();
+    context.save();
+    context.translate(900, 200);
+    context.lineWidth=3;
+    context.strokeStyle="yellow";
+    context.scale(1, 1 / 2);
+    context.arc(50, 0, 100, 0, Math.PI * 2);
+    context.stroke();
+    context.restore();
+    //旋转正方形
+    context.save();
+    context.translate(800, 200);
+    context.rotate(Math.PI / 4);
+    context.fillStyle="skyblue";
+    context.fillRect(0, 0, 100, 100);
+    context.restore();
+    //5.封装矩形构造函数，封装圆形构造函数
+    //矩形封装
+    function Shape(config){
+        //参数要有x,y,width,height,cont
+        for(var k in config){
+             this[k]=config[k];
+        }
+//        this.cont=config.cont;
+//        this.x=config.x;
+//        this.y=config.y;
+//        this.width=config.width;
+//        this.height=config.height;
+//        this.strokeStyle=config.strokeStyle;
+//        this.fillStyle=config.fillStyle;
+//        this.lineWidth=config.lineWidth;
+    }
+    Shape.prototype={
+        constructor:Shape,
+        stroke:function(){
+            var context=this.cont;
+            context.beginPath();
+            context.save();
+            if(this.strokeStyle){
+                context.strokeStyle=this.strokeStyle;
+            }
+             if(this.lineWidth){
+                  context.lineWidth=this.lineWidth;
+             }
+             if(this.r){
+                 context.arc(this.x,this.y,this.r,this.start,this.end);
+             }else{
+                 context.rect(this.x,this.y,this.width,this.height);
+             }
+            context.stroke();
+            context.restore();
+        },
+        fill:function () {
+            var context=this.cont;
+            context.beginPath();
+            if(this.fillStyle){
+                context.fillStyle=this.fillStyle;
+            }
+             if(this.r){
+                 context.arc(this.x,this.y,this.r,this.start,this.end);
+             }else{
+                 context.rect(this.x,this.y,this.width,this.height);
+             }
+            context.fill();
+            context.restore();
+        }
+    };
+
+    var shape1=new Shape({
+        cont:context,
+        x:100,
+        y:400,
+        width:100,
+        height:100,
+        strokeStyle:"red",
+        fillStyle:"yellowgreen",
+        lineWidth:10
+    });
+    shape1.fill();
+
+    var shape2=new Shape({
+        cont:context,
+        x:500,
+        y:500,
+        r:100,
+        start:0,
+        end:Math.PI*2,
+        strokeStyle:"pink",
+        fillStyle:"brown",
+        lineWidth:10
+    });
+    shape2.stroke();
+//    context.arc(x,y,r,0,2*Math.PI);
+
+</script>
+</body>
+</html>

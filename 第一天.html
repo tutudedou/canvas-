@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #paint {
+            box-shadow: 0 0 10px #ccc;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<canvas id="paint">hello</canvas>
+<!--不要使用css来设置宽高,使用属性来增加宽高相当于增加了像素
+使用css设置没有增加像素点只是将像素点增大了-->
+</body>
+<script>
+    //    var painter = document.querySelector("#paint");
+    //    //默认就会占据300x150的区域
+    //    painter.width = 500;
+    //    painter.height = 500;
+    //    console.log(painter);
+    //    var cxt = painter.getContext("2d");
+    //    console.log(cxt);
+
+    //    //绘图开始
+    //    cxt.beginPath();
+    //    cxt.moveTo(100,100);
+    //    cxt.lineTo(300,100);
+    //    cxt.lineTo(300,300);
+    //    cxt.lineTo(100,200);
+    //    cxt.lineWidth=10;
+    //    cxt.lineCap='round';
+    //    cxt.strokeStyle='yellowgreen';
+    //    cxt.stroke();
+    //    cxt.closePath();
+    //    //第二个绘图开始
+    //
+    //    cxt.beginPath();
+    //    cxt.lineWidth="5";
+    //    cxt.strokeStyle="pink";
+    //    cxt.strokeRect(300,250,100,100);
+    //    cxt.fillStyle="red";
+    //    cxt.fillRect(400,150,100,100);
+    //    cxt.closePath();
+    ////第三个绘图开始
+    //    cxt.beginPath();
+    //    cxt.strokeStyle="blue";
+    //    cxt.fillText("hello",200,200);
+    //    //第四个绘图开始
+    //    cxt.beginPath();
+    //    cxt.strokeRect(100,200,100,200);
+
+    //开始绘制虚线
+    //    cxt.beginPath();
+    //    cxt.lineWidth = 10;
+    //    cxt.lineCap = 'round';
+    //    cxt.strokeStyle = 'yellowgreen';
+    //    var step = 20;
+    //    var start = 100;
+    //    while (true) {
+    //        if (start >= 500)break;
+    //        cxt.moveTo(start, 100);
+    //        cxt.lineTo(start += step, 100);
+    //        start += step;
+    //    }
+    //    cxt.stroke();
+    //    cxt.closePath();
+    //
+    //   cxt.beginPath();
+    //    cxt.moveTo(100,150);
+    //    cxt.lineTo(300,150);
+    //    cxt.lineTo(300,400);
+    //    cxt.lineTo(200,500);
+    //    cxt.lineTo(100,400);
+    //    cxt.lineTo(100,150);
+    //    cxt.stroke();
+    //    cxt.fillStyle="pink";
+    //    cxt.fill();
+    //    cxt.closePath();
+
+    //画星星
+    //    var cvs =  document.querySelector("#paint");
+    //    cvs.width = window.innerWidth;
+    //    cvs.height = window.innerHeight;
+    //    var ctx = cvs.getContext('2d');
+    //    var starArr = [],meteorArr = [];
+    //    for(var i=0;i<50;i++){
+    //        starArr.push({
+    //            x:parseInt(Math.random() * cvs.width),
+    //            y:parseInt(Math.random() * cvs.height),
+    //            r:parseInt(Math.random() * 7) + 3,
+    //            opacity:1,
+    //            opacitySpeed:0.02//i % 3 == 0 ? 0.01 : 0
+    //        });
+    //    }
+    //    for(var i=0;i<50;i++){
+    //        meteorArr.push({
+    //            x:Math.random()*cvs.width * 20,
+    //            y:-Math.random() * cvs.height,
+    //            r:0.1,
+    //            opacity:1
+    //        });
+    //    }
+    //
+    //    setInterval(function(){
+    //        ctx.fillStyle = 'rgb(20,20,20)';
+    //        ctx.fillRect(0,0,cvs.width,cvs.height);
+    //        ctx.lineCap = 'round';
+    //        for(var i=0;i<starArr.length;i++){
+    //            var x = starArr[i].x,
+    //                    y = starArr[i].y,
+    //                    r = starArr[i].r,
+    //                    opacity = starArr[i].opacity;
+    //            ctx.beginPath();
+    //            ctx.moveTo(x,y);
+    //            ctx.lineTo(x+r/6,y+r/3);
+    //            ctx.lineTo(x+r/2,y+r/2);
+    //            ctx.lineTo(x+r/6,y+r/3*2);
+    //            ctx.lineTo(x,y+r);
+    //            ctx.lineTo(x-r/6,y+r/3*2);
+    //            ctx.lineTo(x -r/2,y+r/2);
+    //            ctx.lineTo(x-r/6,y+r/3);
+    //            ctx.lineTo(x,y);
+    //            ctx.strokeStyle = 'rgba(255,255,255,'+opacity+')';
+    //            ctx.fillStyle = 'rgba(255,255,255,'+opacity+')';
+    //            ctx.fill();
+    //            ctx.stroke();
+    //            ctx.closePath();
+    //            starArr[i].opacity -= starArr[i].opacitySpeed;
+    //            if(starArr[i].opacity <= 0.2 || starArr[i].opacity >= 1){
+    //                starArr[i].opacitySpeed = -starArr[i].opacitySpeed;
+    //            }
+    //        }
+    //        for(var i=0;i<meteorArr.length;i++){
+    //            var x = meteorArr[i].x,
+    //                    y = meteorArr[i].y,
+    //                    r = meteorArr[i].r;
+    //            for(var j=r;j<70;j++){
+    //                ctx.beginPath();
+    //                ctx.fillStyle = 'rgb(255,255,255)'
+    //                ctx.arc(x,y,r,0,360 * Math.PI / 180,true);
+    //                r+=0.02;
+    //                x -= 2;
+    //                y += 1;
+    //                ctx.fill();
+    //                ctx.closePath();
+    //            }
+    //            meteorArr[i].x-=16;
+    //            meteorArr[i].y+=8;
+    //            if(meteorArr[i].y >= cvs.height + 50){
+    //                meteorArr[i].x = Math.random()*cvs.width * 20;
+    //                meteorArr[i].y = -Math.random() * cvs.height;
+    //            }
+    //        }
+    //    },20);
+
+    //画虚线
+    var painter = document.querySelector("#paint");
+    //默认就会占据300x150的区域
+    painter.width = 500;
+    painter.height = 500;
+    console.log(painter);
+    var cxt = painter.getContext("2d");
+    console.log(cxt);
+
+    //绘图开始
+    //    cxt.beginPath();
+    //    cxt.moveTo(100, 100);
+    //    cxt.lineTo(300, 100);
+    //    cxt.lineTo(300, 300);
+    //    cxt.lineTo(100, 200);
+    //    cxt.lineWidth = 5;
+    //    cxt.lineCap = 'round';
+    //
+    //    //画虚线的参数
+    //    cxt.setLineDash([10, 5, 5, 5]);//这里传入的是一个数组
+    //    cxt.lineDashOffset = -20;
+    //    cxt.strokeStyle = 'yellowgreen';
+    //    cxt.stroke();
+    //    cxt.closePath();
+
+//    for (var i = 0; i < 255; i++) {
+//        cxt.beginPath();
+//
+//        cxt.strokeStyle = "rgb(" + i + "," + (255 - i) + "," + i + ")";
+//
+//        cxt.moveTo(50 + i, 100);
+//        cxt.lineTo(50 + i, 400);
+//        cxt.stroke();
+//    }
+//    for (var i = 0; i < 50; i++) {
+//        cxt.beginPath();
+//        cxt.moveTo(10*i, 0);
+//        cxt.lineTo(10*i, 500);
+//        cxt.strokeStyle="black";
+//        cxt.stroke();
+//    }
+//    for(var j =0;j <= 50;j++){
+//        cxt.beginPath();
+//        cxt.moveTo(0, 10*j);
+//        cxt.lineTo(500, 10*j);
+//        cxt.strokeStyle="black";
+//        cxt.stroke();
+//
+//    }
+    cxt.beginPath();
+    cxt.moveTo(100,300);
+    cxt.lineTo(400,300)
+    var arrh=20;var arrw=10;
+    cxt.moveTo(400,300);
+    cxt.lineTo(400-arrh,300-arrw);
+    cxt.moveTo(400,300);
+    cxt.lineTo(400-arrh,300+arrw);
+    cxt.stroke();
+</script>
+</html>
